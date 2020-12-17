@@ -1,0 +1,104 @@
+boolean gamestart = false; 
+boolean appear = true;
+boolean appearYin = false;
+boolean runMethod = true;
+boolean runMethodYin = true;
+int timerlol = 0;
+int timerseg = 0;
+int timeryin1 = 0;
+int timeryin2 = 0;
+int score = 0;
+float sx = 0.0;
+float sy = 0.0;
+float xyin = 0.0;
+float yyin = 0.0;
+int chanceOfYin = 0;
+PImage sf;
+PImage yin;
+
+void setup() {
+  fullScreen();
+  sf = loadImage("Segfault.png");
+  yin = loadImage("bad.png");
+}
+
+void draw() {
+  noCursor();
+  if (!gamestart) {
+    background(255);
+    fill(0);
+    textSize(20);
+    text("Sami Alameddine, The Game.", 500, 500);   
+
+    text("Press any key to start.", 500, 600);
+    if (keyPressed) {
+      gamestart = true;
+    }
+  }
+  if (gamestart) {
+    background(0);
+    if (appear && !appearYin) {
+      if (runMethod) {
+        random();
+        runMethod = false;
+      }
+      timerlol++;
+      if (timerlol == 60) {
+        timerlol = 0;
+        timerseg++;
+      }
+      if (timerseg == 2) {
+        timerseg = 0;
+        appear = false;
+        runMethod = true;
+      }
+      image(sf, sx, sy);
+      text(timerseg, 200, 200);
+    }
+    if (!appear) { 
+      timerlol++;
+      if (timerlol == 60) {
+        timerlol = 0;
+        timerseg++;
+      }
+      if (timerseg == 4) {
+        timerseg = 0;
+        appear = true;
+      }
+    }
+    if (appearYin) {
+      image(yin, xyin, yyin);
+      if (runMethodYin) {
+        randomYin();
+        runMethodYin = false;
+      }
+      timeryin1++;
+      if (timeryin1 == 60) {
+        timeryin1 = 0;
+        timeryin2++;
+      }
+      if (timeryin2 == 2) {
+        appearYin = false; 
+        runMethodYin = true;
+      }
+    }
+    if (!appearYin) {
+      chanceOfYin = int(random(0, 180));
+      if (chanceOfYin == 69) {
+        appearYin = true;
+      }
+    }
+    fill(255, 0, 0);
+    ellipse(mouseX, mouseY, 10, 10);
+  }
+}
+
+void random() {
+  sx = random(0, 1500);
+  sy = random(0, 900);
+}
+
+void randomYin() {
+  xyin = random(0, 1500);
+  yyin = random(0, 900);
+}
